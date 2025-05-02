@@ -1,0 +1,71 @@
+{
+    "name": "code-md",
+    "displayName": "Code.md",
+    "description": "One-click Markdown copy.",
+    "version": "0.0.1",
+    "publisher": "publisher-id",
+    "engines": {
+        "vscode": "^1.99.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "browser": "dist/extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "code-md.selection",
+                "title": "Copy as Markdown (Selection)"
+            },
+            {
+                "command": "code-md.root",
+                "title": "Copy as Markdown (Root)"
+            },
+            {
+                "command": "code-md.roots",
+                "title": "Copy as Markdown (Roots)"
+            }
+        ],
+        "menus": {
+            "commandPalette": [
+                {
+                    "command": "code-md.selection",
+                    "when": "false"
+                },
+                {
+                    "command": "code-md.root",
+                    "when": "workspaceFolderCount <= 1"
+                },
+                {
+                    "command": "code-md.roots",
+                    "when": "workspaceFolderCount > 1"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "code-md.selection",
+                    "when": "listHasSelectionOrFocus && (!explorerResourceIsRoot || workbenchState === 'workspace')"
+                },
+                {
+                    "command": "code-md.root",
+                    "when": "workspaceFolderCount <= 1 && !listHasSelectionOrFocus"
+                },
+                {
+                    "command": "code-md.roots",
+                    "when": "workspaceFolderCount > 1 && !listHasSelectionOrFocus"
+                }
+            ]
+        }
+    },
+    "scripts": {
+        "dev": "vite build -w -m development",
+        "preview": "code . --disable-extensions --extensionDevelopmentPath=$PWD"
+    },
+    "devDependencies": {
+        "@types/node": "^22.15.17",
+        "@types/vscode": "^1.99.1",
+        "execa": "^9.5.3",
+        "typescript": "^5.8.3",
+        "vite": "^6.3.5"
+    }
+}

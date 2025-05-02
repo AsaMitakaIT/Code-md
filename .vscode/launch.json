@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "name": "dev script",
+            "type": "node",
+            "request": "launch",
+            "runtimeExecutable": "pnpm",
+            "runtimeArgs": ["dev"]
+        }
+    ]
+}
