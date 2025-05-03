@@ -12,6 +12,9 @@
     ],
     "browser": "dist/extension.js",
     "contributes": {
+        "configuration": {
+            "properties": {}
+        },
         "commands": [
             {
                 "command": "code-md.selection",
