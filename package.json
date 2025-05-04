@@ -11,9 +11,74 @@
         "Other"
     ],
     "browser": "dist/extension.js",
+    "enabledApiProposals": [
+        "findFiles2"
+    ],
     "contributes": {
         "configuration": {
-            "properties": {}
+            "properties": {
+                "code-md.excludeGlobs": {
+                    "markdownDescription": "Configure [glob patterns](https://code.visualstudio.com/docs/editor/glob-patterns) for excluding files and folders.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": [
+                        "**/package-lock.json",
+                        "**/yarn.lock",
+                        "**/pnpm-lock.yaml",
+                        "**/go.sum",
+                        "**/Cargo.lock",
+                        "**/Gemfile.lock",
+                        "**/poetry.lock",
+                        "**/Pipfile.lock",
+                        "**/pubspec.lock",
+                        "**/Package.resolved",
+                        "**/gradle.lockfile",
+                        "**/composer.lock",
+                        "**/packages.lock.json"
+                    ]
+                },
+                "code-md.useGlobalIgnoreFiles": {
+                    "markdownDescription": "Default inherited from `#search.useGlobalIgnoreFiles#`; refer to its description for details.",
+                    "type": [
+                        "null",
+                        "boolean"
+                    ],
+                    "enum": [
+                        null,
+                        true,
+                        false
+                    ],
+                    "default": null
+                },
+                "code-md.useIgnoreFiles": {
+                    "markdownDescription": "Default inherited from `#search.useIgnoreFiles#`; refer to its description for details.",
+                    "type": [
+                        "null",
+                        "boolean"
+                    ],
+                    "enum": [
+                        null,
+                        true,
+                        false
+                    ],
+                    "default": null
+                },
+                "code-md.useParentIgnoreFiles": {
+                    "markdownDescription": "Default inherited from `#search.useParentIgnoreFiles#`; refer to its description for details.",
+                    "type": [
+                        "null",
+                        "boolean"
+                    ],
+                    "enum": [
+                        null,
+                        true,
+                        false
+                    ],
+                    "default": null
+                }
+            }
         },
         "commands": [
             {
@@ -62,13 +127,14 @@
     },
     "scripts": {
         "dev": "vite build -w -m development",
-        "preview": "code . --disable-extensions --extensionDevelopmentPath=$PWD"
+        "preview": "code . --disable-extensions --extensionDevelopmentPath=$PWD --enable-proposed-api publisher-id.code-md"
     },
     "devDependencies": {
         "@types/node": "^22.15.17",
         "@types/vscode": "^1.99.1",
         "execa": "^9.5.3",
         "typescript": "^5.8.3",
-        "vite": "^6.3.5"
+        "vite": "^6.3.5",
+        "vscode-uri": "^3.1.0"
     }
 }
