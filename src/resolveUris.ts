@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { Utils } from 'vscode-uri';
 import config from './config';
+import renderSnippets from './renderSnippets';
 
 export default async (uris: vscode.Uri[]) => {
     const patterns = uris.map(uri =>
@@ -33,5 +34,5 @@ export default async (uris: vscode.Uri[]) => {
         return;
     };
 
-    console.log("Resolved URIs:", resolvedUris);
+    await renderSnippets(resolvedUris);
 }

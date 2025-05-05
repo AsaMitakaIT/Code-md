@@ -39,6 +39,12 @@
                         "**/packages.lock.json"
                     ]
                 },
+                "code-md.snippetTemplate": {
+                    "markdownDescription": "Configure [Liquid template](https://liquidjs.com/tutorials/intro-to-liquid.html) to generate file snippets.\n\nAvailable properties in each element of `files`:\n* `uri`: Standard [Uri](https://code.visualstudio.com/api/references/vscode-api#Uri).\n* `relativePath`: Path relative to the workspace root.\n* `diagnostics`: Serialized [Diagnostic](https://code.visualstudio.com/api/references/vscode-api#Diagnostic).\n* `textDocument`: [TextDocument](https://code.visualstudio.com/api/references/vscode-api#TextDocument) with an additional `text` property that contains the file contents.`undefined` for non-parsable files such as binaries.",
+                    "editPresentation": "multilineText",
+                    "type": "string",
+                    "default": "{% for file in files -%}\n### {{ file.relativePath }}\n{%- if file.textDocument %}\n```{{ file.textDocument.languageId }}\n{{ file.textDocument.text }}\n```\n{%- for diagnostic in file.diagnostics %}\n**{{ diagnostic.severity }}:** {{ diagnostic.message }} {{ diagnostic.source }}({{ diagnostic.code }}) [Ln {{ diagnostic.range[0].line }}, Col {{ diagnostic.range[0].character }}]-[Ln {{ diagnostic.range[1].line }}, Col {{ diagnostic.range[1].character }}]{% unless forloop.last %}  {% endunless %}\n{%- endfor %}\n{%- endif %}\n{%- unless forloop.last %}\n\n{% endunless %}\n{%- endfor %}"
+                },
                 "code-md.useGlobalIgnoreFiles": {
                     "markdownDescription": "Default inherited from `#search.useGlobalIgnoreFiles#`; refer to its description for details.",
                     "type": [
@@ -133,6 +139,7 @@
         "@types/node": "^22.15.17",
         "@types/vscode": "^1.99.1",
         "execa": "^9.5.3",
+        "liquidjs": "^10.21.0",
         "typescript": "^5.8.3",
         "vite": "^6.3.5",
         "vscode-uri": "^3.1.0"
