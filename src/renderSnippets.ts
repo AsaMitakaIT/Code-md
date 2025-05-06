@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { Liquid, Drop } from 'liquidjs';
 import config from './config';
+import copyAndPreview from './copyAndPreview';
 
 class FileDrop extends Drop {
     constructor(readonly uri: vscode.Uri) {
@@ -34,6 +35,5 @@ export default async (fileUris: vscode.Uri[]) => {
     const files = fileUris.map(uri => new FileDrop(uri));
     const template = engine.parse(config.snippetTemplate);
     const result = await engine.render(template, { files });
-    console.log("Result:", result);
-    console.log("Snippets Count:", files.length);
+    copyAndPreview(result, files.length);
 }
