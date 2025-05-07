@@ -23,7 +23,7 @@ type ValidValue<K extends keyof Props> =
     Props[K] extends { default: infer D }
         ? Props[K] extends { enum: (infer E)[] }
             ? D | E
-            : D
+            : D 
         : never;
 
 type Config = {
@@ -31,7 +31,7 @@ type Config = {
 };
 
 export default new Proxy({} as Config, {
-    get: (_, key: keyof Config)=> {
+    get: (_, key: keyof Config) => {
         const { get } = vscode.workspace.getConfiguration(name);
         return get(key);
     }

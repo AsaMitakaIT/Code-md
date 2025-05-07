@@ -1,13 +1,13 @@
 import { defineConfig } from 'vite';
-import { execa } from 'execa';
+import { execaCommand } from 'execa';
 
-const previewAfterBuild = () => ({
-    name: 'vite-plugin-preview-after-build',
-    async closeBundle() {
+const vscodeDev = () => ({
+    name: 'vite-plugin-vscode-preview',
+    writeBundle() {
         const pm = process.env['npm_execpath']!;
-        await execa(pm, ['run', 'preview'], { stdio: 'inherit' });
+        execaCommand(`${pm} run preview`, { stdio: 'inherit' });
     }
-});
+})
 
 export default defineConfig(({ mode }) => ({
     build: {
@@ -16,11 +16,12 @@ export default defineConfig(({ mode }) => ({
             formats: ['cjs'],
             fileName: () => 'extension.js'
         },
+        target: 'esnext',
         rollupOptions: {
             external: ['vscode']
         }
     },
     plugins: [
-        mode === 'development' && previewAfterBuild()
-    ]
-}));
+        mode === 'development' && vscodeDev()
+    ],
+}))
