@@ -9,7 +9,7 @@ const workspaceFoldersCallback = async () => {
 
 export const activate = (context: vscode.ExtensionContext) => {
     const selection = vscode.commands.registerCommand(`${name}.selection`,
-        async (_, uris: vscode.Uri[] = []) => await resolveUris(uris));
+        async (_, uris: vscode.Uri[] = []) => resolveUris(uris));
     const root = vscode.commands.registerCommand(`${name}.root`, workspaceFoldersCallback);
     const roots = vscode.commands.registerCommand(`${name}.roots`, workspaceFoldersCallback);
     

@@ -1,26 +1,25 @@
-import { defineConfig } from 'vite';
-import { execa } from 'execa';
+import { exec } from 'child_process';
+import { defineConfig } from 'rolldown-vite';
 
-const previewAfterBuild = () => ({
-    name: 'vite-plugin-preview-after-build',
-    async closeBundle() {
-        const pm = process.env['npm_execpath']!;
-        await execa(pm, ['run', 'preview'], { stdio: 'inherit' });
-    }
-});
+const vscodeDev = {
+    name: 'vite-plugin-vscode-preview',
+    writeBundle: () => exec(
+        'code . --disable-extensions --extensionDevelopmentPath=$PWD --enable-proposed-api publisher-id.code-md'
+    )
+};
 
 export default defineConfig(({ mode }) => ({
     build: {
         lib: {
             entry: 'src/extension.ts',
             formats: ['cjs'],
-            fileName: () => 'extension.js'
+            fileName: 'extension'
         },
         rollupOptions: {
             external: ['vscode']
         }
     },
     plugins: [
-        mode === 'development' && previewAfterBuild()
-    ]
-}));
+        mode === 'dev' && vscodeDev
+    ],
+}))

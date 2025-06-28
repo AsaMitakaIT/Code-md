@@ -5,12 +5,15 @@
     "version": "0.0.1",
     "publisher": "publisher-id",
     "engines": {
-        "vscode": "^1.99.0"
+        "vscode": "^1.87.0"
     },
     "categories": [
         "Other"
     ],
     "browser": "dist/extension.js",
+    "files": [
+        "dist/extension.js"
+    ],
     "enabledApiProposals": [
         "findFiles2"
     ],
@@ -39,11 +42,21 @@
                         "**/packages.lock.json"
                     ]
                 },
+                "code-md.previewCommand": {
+                    "description": "Command id that is being executed after opening.",
+                    "type": "string",
+                    "default": "markdown.showPreviewToSide"
+                },
                 "code-md.snippetTemplate": {
-                    "markdownDescription": "Configure [Liquid template](https://liquidjs.com/tutorials/intro-to-liquid.html) to generate file snippets.\n\nAvailable properties in each element of `files`:\n* `uri`: Standard [Uri](https://code.visualstudio.com/api/references/vscode-api#Uri).\n* `relativePath`: Path relative to the workspace root.\n* `diagnostics`: Serialized [Diagnostic](https://code.visualstudio.com/api/references/vscode-api#Diagnostic).\n* `textDocument`: [TextDocument](https://code.visualstudio.com/api/references/vscode-api#TextDocument) with an additional `text` property that contains the file contents.`undefined` for non-parsable files such as binaries.",
+                    "markdownDescription": "Configure [Liquid template](https://liquidjs.com/tutorials/intro-to-liquid.html) to generate file snippets.\n\nAvailable properties in each element of `files`:\n* `uri`: Standard [Uri](https://code.visualstudio.com/api/references/vscode-api#Uri).\n* `relativePath`: Path relative to the workspace root.\n* `diagnostics`: [Diagnostic](https://code.visualstudio.com/api/references/vscode-api#Diagnostic).\n* `textDocument`: [TextDocument](https://code.visualstudio.com/api/references/vscode-api#TextDocument) with an additional `text` property that contains the file contents.`undefined` for non-parsable files such as binaries.",
                     "editPresentation": "multilineText",
                     "type": "string",
-                    "default": "{% for file in files -%}\n### {{ file.relativePath }}\n{%- if file.textDocument %}\n```{{ file.textDocument.languageId }}\n{{ file.textDocument.text }}\n```\n{%- for diagnostic in file.diagnostics %}\n**{{ diagnostic.severity }}:** {{ diagnostic.message }} {{ diagnostic.source }}({{ diagnostic.code }}) [Ln {{ diagnostic.range[0].line }}, Col {{ diagnostic.range[0].character }}]-[Ln {{ diagnostic.range[1].line }}, Col {{ diagnostic.range[1].character }}]{% unless forloop.last %}  {% endunless %}\n{%- endfor %}\n{%- endif %}\n{%- unless forloop.last %}\n\n{% endunless %}\n{%- endfor %}"
+                    "default": "{% for file in files -%}\n### {{ file.relativePath }}\n{%- if file.textDocument %}\n\n```{{ file.textDocument.languageId }}\n{{ file.textDocument.text }}\n```\n{%- for diagnostic in file.diagnostics %}\n**{{ diagnostic.severity }}:** {{ diagnostic.message }} {{ diagnostic.source }}({{ diagnostic.code }}) [Ln {{ diagnostic.range[0].line }}, Col {{ diagnostic.range[0].character }}]-[Ln {{ diagnostic.range[1].line }}, Col {{ diagnostic.range[1].character }}]{% unless forloop.last %}  {% endunless %}\n{%- endfor %}\n{%- endif %}\n{%- unless forloop.last %}\n\n{% endunless %}\n{%- endfor %}"
+                },
+                "code-md.templateFormat": {
+                    "markdownDescription": "Configure the [language identifier](https://code.visualstudio.com/docs/languages/identifiers) of the template.",
+                    "type": "string",
+                    "default": "markdown"
                 },
                 "code-md.useGlobalIgnoreFiles": {
                     "markdownDescription": "Default inherited from `#search.useGlobalIgnoreFiles#`; refer to its description for details.",
@@ -132,16 +145,16 @@
         }
     },
     "scripts": {
-        "dev": "vite build -w -m development",
-        "preview": "code . --disable-extensions --extensionDevelopmentPath=$PWD --enable-proposed-api publisher-id.code-md"
+        "dev": "vite build -w -m dev",
+        "package": "vite build && vsce package -o dist"
     },
     "devDependencies": {
-        "@types/node": "^22.15.17",
-        "@types/vscode": "^1.99.1",
-        "execa": "^9.5.3",
-        "liquidjs": "^10.21.0",
+        "@types/node": "^24.0.6",
+        "@types/vscode": "^1.87.0",
+        "@vscode/vsce": "^3.6.0",
+        "liquidjs": "^10.21.1",
+        "rolldown-vite": "^7.0.3",
         "typescript": "^5.8.3",
-        "vite": "^6.3.5",
         "vscode-uri": "^3.1.0"
     }
 }

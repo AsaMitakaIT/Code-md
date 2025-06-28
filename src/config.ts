@@ -20,18 +20,18 @@ type ValidKey<K extends keyof Props> =
             : never;
 
 type ValidValue<K extends keyof Props> =
-    Props[K] extends { default: infer D }
-        ? Props[K] extends { enum: (infer E)[] }
-            ? D | E
-            : D
-        : never;
+    Props[K] extends { enum: (infer E)[] }
+        ? E
+        : Props[K] extends { default: infer D}
+            ? D
+            : never;
 
 type Config = {
     readonly [K in keyof Props as ValidKey<K>]: ValidValue<K>;
 };
 
 export default new Proxy({} as Config, {
-    get: (_, key: keyof Config)=> {
+    get: (_, key: keyof Config) => {
         const { get } = vscode.workspace.getConfiguration(name);
         return get(key);
     }

@@ -9,7 +9,7 @@ export default async (uris: vscode.Uri[]) => {
             Utils.dirname(uri),
             `${ Utils.basename(uri) }{,/**/*}`
         )
-    )
+    );
 
     const {
         excludeGlobs,

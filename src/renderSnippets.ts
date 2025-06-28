@@ -1,38 +1,33 @@
 import * as vscode from 'vscode';
-import { Liquid, Drop } from 'liquidjs';
+import { Liquid } from 'liquidjs';
 import config from './config';
 import copyAndPreview from './copyAndPreview';
 
-class FileDrop extends Drop {
-    constructor(readonly uri: vscode.Uri) {
-        super();
-    }
+const buildFile = (uri: vscode.Uri) => {
+    const base = {
+        relativePath: vscode.workspace.asRelativePath(uri),
+        diagnostics: vscode.languages.getDiagnostics(uri)
+    };
 
-    get relativePath() {
-        return vscode.workspace.asRelativePath(this.uri);
-    }
-
-    get diagnostics() {
-        const diagnostics = vscode.languages.getDiagnostics(this.uri);
-        return JSON.parse(JSON.stringify(diagnostics));
-    }
-
-    get textDocument() {
-        return vscode.workspace.openTextDocument(this.uri)
-            .then(
-                doc => ({
-                        ...doc,
-                    text: doc.getText()
-                }),
-                () => undefined
-            );
-    }
-}
+    return vscode.workspace.openTextDocument(uri).then(
+        doc => ({
+            ...base,
+            textDocument: {
+                ...doc,
+                text: doc.getText()
+            }
+        }),
+        () => ({
+            ...base,
+            textDocument: undefined
+        })
+    );
+};
 
 const engine = new Liquid();
 
 export default async (fileUris: vscode.Uri[]) => {
-    const files = fileUris.map(uri => new FileDrop(uri));
+    const files = await Promise.all(fileUris.map(buildFile));
     const template = engine.parse(config.snippetTemplate);
     const result = await engine.render(template, { files });
     copyAndPreview(result, files.length);
