@@ -15,6 +15,9 @@ export default defineConfig(({ mode }) => ({
             formats: ['cjs'],
             fileName: 'extension'
         },
+        esbuild: {
+            legalComments: 'none',
+        },
         rollupOptions: {
             external: ['vscode']
         }
