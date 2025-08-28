@@ -4,6 +4,10 @@
     "description": "One-click Markdown copy.",
     "version": "0.0.1",
     "publisher": "publisher-id",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AsaMitakaIT/Code-md"
+    },
     "engines": {
         "vscode": "^1.87.0"
     },
@@ -12,7 +16,8 @@
     ],
     "browser": "dist/extension.js",
     "files": [
-        "dist/extension.js"
+        "dist/extension.js",
+        "LICENSE"
     ],
     "enabledApiProposals": [
         "findFiles2"
@@ -51,7 +56,7 @@
                     "markdownDescription": "Configure [Liquid template](https://liquidjs.com/tutorials/intro-to-liquid.html) to generate file snippets.\n\nAvailable properties in each element of `files`:\n* `uri`: Standard [Uri](https://code.visualstudio.com/api/references/vscode-api#Uri).\n* `relativePath`: Path relative to the workspace root.\n* `diagnostics`: [Diagnostic](https://code.visualstudio.com/api/references/vscode-api#Diagnostic).\n* `textDocument`: [TextDocument](https://code.visualstudio.com/api/references/vscode-api#TextDocument) with an additional `text` property that contains the file contents.`undefined` for non-parsable files such as binaries.",
                     "editPresentation": "multilineText",
                     "type": "string",
-                    "default": "{% for file in files -%}\n### {{ file.relativePath }}\n{%- if file.textDocument %}\n\n```{{ file.textDocument.languageId }}\n{{ file.textDocument.text }}\n```\n{%- for diagnostic in file.diagnostics %}\n**{{ diagnostic.severity }}:** {{ diagnostic.message }} {{ diagnostic.source }}({{ diagnostic.code }}) [Ln {{ diagnostic.range[0].line }}, Col {{ diagnostic.range[0].character }}]-[Ln {{ diagnostic.range[1].line }}, Col {{ diagnostic.range[1].character }}]{% unless forloop.last %}  {% endunless %}\n{%- endfor %}\n{%- endif %}\n{%- unless forloop.last %}\n\n{% endunless %}\n{%- endfor %}"
+                    "default": "{% for file in files %}{% comment %}\n{% endcomment %}### {{ file.relativePath }}\n{% if file.textDocument %}\n```{{ file.textDocument.languageId }}\n{{ file.textDocument.getText }}\n```{% comment %}\n{% endcomment %}{% for diagnostic in file.diagnostics %}\n**{% case diagnostic.severity %}{% comment %}\n{% endcomment %}{% when 0 %}Error{% comment %}\n{% endcomment %}{% when 1 %}Warning{% comment %}\n{% endcomment %}{% when 2 %}Information{% comment %}\n{% endcomment %}{% when 3 %}Hint{% comment %}\n{% endcomment %}{% else %}Unknown{% comment %}\n{% endcomment %}{% endcase %}**{% comment %}\n{% endcomment %}: {{ diagnostic.message }}{% comment %}\n{% endcomment %} {{ diagnostic.source }}({{ diagnostic.code }}){% comment %}\n{% endcomment %} [Ln {{ diagnostic.range.start.line | plus: 1 }}{% comment %}\n{% endcomment %}, Col {{ diagnostic.range.start.character | plus: 1 }}]{% comment %}\n{% endcomment %}-[Ln {{ diagnostic.range.end.line | plus: 1 }}{% comment %}\n{% endcomment %}, Col {{ diagnostic.range.end.character | plus: 1 }}]{% comment %}\n{% endcomment %}{% unless forloop.last %}  {% endunless %}{% comment %}\n{% endcomment %}{% endfor %}\n{% endif %}\n\n{% endfor %}"
                 },
                 "code-md.templateFormat": {
                     "markdownDescription": "Configure the [language identifier](https://code.visualstudio.com/docs/languages/identifiers) of the template.",
@@ -145,16 +150,18 @@
         }
     },
     "scripts": {
+        "postinstall": "dts dev",
         "dev": "vite build -w -m dev",
         "package": "vite build && vsce package -o dist"
     },
     "devDependencies": {
-        "@types/node": "^24.0.6",
+        "@types/node": "^24.2.1",
         "@types/vscode": "^1.87.0",
+        "@vscode/dts": "^0.4.1",
         "@vscode/vsce": "^3.6.0",
         "liquidjs": "^10.21.1",
-        "rolldown-vite": "^7.0.3",
-        "typescript": "^5.8.3",
+        "rolldown-vite": "^7.1.2",
+        "typescript": "^5.9.2",
         "vscode-uri": "^3.1.0"
     }
 }
