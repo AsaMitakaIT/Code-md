@@ -1,28 +1,34 @@
 import { exec } from 'child_process';
 import { defineConfig } from 'rolldown-vite';
 
-const vscodeDev = {
-    name: 'vite-plugin-vscode-preview',
+const launchAfterBuild = {
+    name: 'vite-plugin-launch-vscode-after-build',
     writeBundle: () => exec(
         'code . --disable-extensions --extensionDevelopmentPath=$PWD --enable-proposed-api publisher-id.code-md'
     )
 };
 
-export default defineConfig(({ mode }) => ({
+const isDev = process.env['npm_lifecycle_event'] === 'dev';
+
+export default defineConfig({
     build: {
         lib: {
             entry: 'src/extension.ts',
             formats: ['cjs'],
             fileName: 'extension'
         },
-        esbuild: {
-            legalComments: 'none',
+        target: 'esnext',
+        minify: true,
+        sourcemap: isDev,
+        rolldownOptions: {
+            external: ['vscode'],
+            output: {
+                format: 'cjs',
+                legalComments: 'none',
+            },
         },
-        rollupOptions: {
-            external: ['vscode']
-        }
     },
     plugins: [
-        mode === 'dev' && vscodeDev
+        isDev && launchAfterBuild
     ],
-}))
+});

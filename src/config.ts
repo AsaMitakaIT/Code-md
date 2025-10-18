@@ -1,4 +1,5 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode'
+
 import { name, contributes } from '../package.json';
 
 type Props = typeof contributes.configuration.properties;

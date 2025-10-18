@@ -1,12 +1,13 @@
-import * as vscode from 'vscode';
+import vscode from 'vscode'
 import { Liquid } from 'liquidjs';
+
 import config from './config';
 import copyAndPreview from './copyAndFinish';
 
 const buildFile = (uri: vscode.Uri) => {
     const base = {
         relativePath: vscode.workspace.asRelativePath(uri),
-        diagnostics: vscode.languages.getDiagnostics(uri)
+        diagnostics: vscode.languages.getDiagnostics(uri),
     };
 
     return vscode.workspace.openTextDocument(uri).then(
@@ -17,10 +18,7 @@ const buildFile = (uri: vscode.Uri) => {
                 text: doc.getText()
             }
         }),
-        () => ({
-            ...base,
-            textDocument: undefined
-        })
+        () => base
     );
 };
 
