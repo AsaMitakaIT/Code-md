@@ -1,4 +1,4 @@
-import vscode from 'vscode'
+import vscode from 'vscode';
 import { Liquid } from 'liquidjs';
 
 import config from './config';
@@ -15,12 +15,12 @@ const buildFile = (uri: vscode.Uri) => {
             ...base,
             textDocument: {
                 ...doc,
-                text: doc.getText()
-            }
+                text: doc.getText(),
+            },
         }),
-        () => base
+        () => base,
     );
-};
+}
 
 const engine = new Liquid({ ownPropertyOnly: false });
 
