@@ -1,8 +1,8 @@
-import vscode from 'vscode';
-import { Liquid } from 'liquidjs';
+import vscode from "vscode";
+import { Liquid } from "liquidjs";
 
-import config from './config';
-import copyAndPreview from './copyAndFinish';
+import config from "./config";
+import copyAndPreview from "./copyAndFinish";
 
 const buildFile = (uri: vscode.Uri) => {
     const base = {
@@ -20,7 +20,7 @@ const buildFile = (uri: vscode.Uri) => {
         }),
         () => base,
     );
-}
+};
 
 const engine = new Liquid({ ownPropertyOnly: false });
 
@@ -29,4 +29,4 @@ export default async (fileUris: vscode.Uri[]) => {
     const template = engine.parse(config.snippetTemplate);
     const result = await engine.render(template, { files });
     await copyAndPreview(result, files.length);
-}
+};

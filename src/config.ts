@@ -1,6 +1,6 @@
-import vscode from 'vscode';
+import vscode from "vscode";
 
-import { name, contributes } from '../package.json';
+import { name, contributes } from "../package.json";
 
 type Props = typeof contributes.configuration.properties;
 
@@ -36,4 +36,4 @@ export default new Proxy({} as Config, {
         const { get } = vscode.workspace.getConfiguration(name);
         return get(key);
     }
-})
+});

@@ -1,8 +1,8 @@
-import vscode from 'vscode';
-import { Utils } from 'vscode-uri';
+import vscode from "vscode";
+import { Utils } from "vscode-uri";
 
-import config from './config';
-import renderSnippets from './renderSnippets';
+import config from "./config";
+import renderSnippets from "./renderSnippets";
 
 export default async (uris: vscode.Uri[]) => {
     const patterns = uris.map(uri => new vscode.RelativePattern(
@@ -34,4 +34,4 @@ export default async (uris: vscode.Uri[]) => {
     };
 
     await renderSnippets(resolvedUris);
-}
+};

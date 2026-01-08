@@ -1,6 +1,6 @@
-import vscode from 'vscode';
+import vscode from "vscode";
 
-import config from './config';
+import config from "./config";
 
 export default async (text: string, snippetCount: number) => {
     const noun = `${snippetCount} ${snippetCount === 1 ? "snippet" : "snippets"}`;
@@ -27,4 +27,4 @@ export default async (text: string, snippetCount: number) => {
     } catch (err) {
         await vscode.window.showErrorMessage(`${err}.`);
     };
-}
+};

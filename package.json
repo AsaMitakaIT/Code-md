@@ -1,4 +1,27 @@
 {
+    "scripts": {
+        "dev": "vite build -w -m dev",
+        "lint": "oxlint",
+        "package": "vite build && vsce package -o dist",
+        "postinstall": "dts dev"
+    },
+    "devDependencies": {
+        "@types/node": "^25.0.3",
+        "@types/vscode": "^1.87.0",
+        "@vscode/dts": "^0.4.1",
+        "@vscode/vsce": "^3.7.1",
+        "liquidjs": "^10.24.0",
+        "oxlint": "^1.37.0",
+        "rolldown-vite": "^7.3.0",
+        "typescript": "^5.9.3",
+        "vscode-uri": "^3.1.0"
+    },
+    "pnpm": {
+        "updateConfig": {
+            "ignoreDependencies": ["@types/vscode"]
+        }
+    },
+
     "name": "code-md",
     "displayName": "Code.md",
     "description": "One-click Markdown copy.",
@@ -148,20 +171,5 @@
                 }
             ]
         }
-    },
-    "scripts": {
-        "postinstall": "dts dev",
-        "dev": "vite build -w -m dev",
-        "package": "vite build && vsce package -o dist"
-    },
-    "devDependencies": {
-        "@types/node": "^24.10.0",
-        "@types/vscode": "^1.87.0",
-        "@vscode/dts": "^0.4.1",
-        "@vscode/vsce": "^3.7.0",
-        "liquidjs": "^10.24.0",
-        "rolldown-vite": "^7.2.2",
-        "typescript": "^5.9.3",
-        "vscode-uri": "^3.1.0"
     }
 }
