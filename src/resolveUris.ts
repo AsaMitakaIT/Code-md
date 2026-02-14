@@ -34,4 +34,4 @@ export default async (uris: vscode.Uri[]) => {
     };
 
     await renderSnippets(resolvedUris);
-};
+}

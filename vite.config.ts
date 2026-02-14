@@ -10,6 +10,7 @@ const launchAfterBuild = {
             ".",
             "--disable-extensions",
             "--extensionDevelopmentPath=" + process.cwd(),
+            "--extensionDevelopmentKind=web",
             "--enable-proposed-api publisher-id.code-md"
         ],
         { stdio: "inherit" },

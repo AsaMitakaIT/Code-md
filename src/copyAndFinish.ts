@@ -14,7 +14,7 @@ export default async (text: string, snippetCount: number) => {
     } catch {
         const selection = await vscode.window.showWarningMessage(`Failed to copy ${noun} to clipboard.`, button);
         if (selection === undefined) return;
-    };
+    }
 
     const doc = await vscode.workspace.openTextDocument({
         language: config.templateFormat.trim(),
@@ -23,8 +23,8 @@ export default async (text: string, snippetCount: number) => {
     await vscode.window.showTextDocument(doc);
 
     try {
-        await vscode.commands.executeCommand(command);
+        await vscode.commands.executeCommand(command, doc.uri);
     } catch (err) {
         await vscode.window.showErrorMessage(`${err}.`);
-    };
-};
+    }
+}

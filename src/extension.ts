@@ -6,7 +6,7 @@ import { name } from "../package.json";
 const workspaceFoldersCallback = () => {
     const uris = vscode.workspace.workspaceFolders?.map(folder => folder.uri);
     return resolveUris(uris ?? []);
-};
+}
 
 export const activate = (context: vscode.ExtensionContext) => {
     const selection = vscode.commands.registerCommand(
@@ -17,4 +17,4 @@ export const activate = (context: vscode.ExtensionContext) => {
     const roots = vscode.commands.registerCommand(`${name}.roots`, workspaceFoldersCallback);
 
     context.subscriptions.push(selection, root, roots);
-};
+}

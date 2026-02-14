@@ -20,7 +20,7 @@ const buildFile = (uri: vscode.Uri) => {
         }),
         () => base,
     );
-};
+}
 
 const engine = new Liquid({ ownPropertyOnly: false });
 
@@ -29,4 +29,4 @@ export default async (fileUris: vscode.Uri[]) => {
     const template = engine.parse(config.snippetTemplate);
     const result = await engine.render(template, { files });
     await copyAndPreview(result, files.length);
-};
+}
